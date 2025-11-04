@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "../geometria"
+		},
+		{
+			"path": "../test_project"
+		},
+		{
+			"path": "../bots-service"
+		},
+		{
+			"path": "../trigonometria"
+		},
+		{
+			"path": "../backend-sd"
+		},
+		{
+			"path": "../PrecioInteligente"
+		}
+	]
+}
