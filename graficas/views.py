@@ -138,11 +138,22 @@ class NodoViewSet(viewsets.ModelViewSet):
         return Nodo.objects.filter(padre__isnull=True)
 
 
+from rest_framework.pagination import PageNumberPagination
+
+class DiezResultadosPaginacion(PageNumberPagination):
+    # Número de elementos a devolver por página
+    page_size = 10 
+    # Permite al cliente especificar un número de elementos por página (opcional)
+    # max_page_size = 100 
+    # Nombre del parámetro de consulta para cambiar el tamaño de la página
+    # page_size_query_param = 'page_size'
+
 
 
 class MatrizViewSet(viewsets.ModelViewSet):
-    queryset = Matriz.objects.all()
+    queryset = Matriz.objects.all().order_by('-fecha_creacion')
     serializer_class = MatrizSerializer
+    pagination_class = DiezResultadosPaginacion
 
 
 

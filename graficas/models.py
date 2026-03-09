@@ -186,14 +186,45 @@ class Matriz(models.Model):
     brown_rule = models.CharField(max_length=200, default="")
     red_rule = models.CharField(max_length=200, default="")
 
+    rule_1_color_1 = models.CharField(max_length=200, default="red", blank=True)
+    rule_1_color_2 = models.CharField(max_length=200, default="red", blank=True)
+    rule_1_color_3 = models.CharField(max_length=200, default="red", blank=True)
+
+    rule_2_color_1 = models.CharField(max_length=200, default="blue", blank=True)
+    rule_2_color_2 = models.CharField(max_length=200, default="blue", blank=True)
+    rule_2_color_3 = models.CharField(max_length=200, default="blue", blank=True)
+
+    rule_3_color_1 = models.CharField(max_length=200, default="green", blank=True)
+    rule_3_color_2 = models.CharField(max_length=200, default="green", blank=True)
+    rule_3_color_3 = models.CharField(max_length=200, default="green", blank=True)
+
+    rule_4_color_1 = models.CharField(max_length=200, default="brown", blank=True)
+    rule_4_color_2 = models.CharField(max_length=200, default="brown", blank=True)
+    rule_4_color_3 = models.CharField(max_length=200, default="brown", blank=True)
+
+    rule_5_color_1 = models.CharField(max_length=200, default="gray", blank=True)
+    rule_5_color_2 = models.CharField(max_length=200, default="gray", blank=True)
+    rule_5_color_3 = models.CharField(max_length=200, default="gray", blank=True)
+
+ 
+    altura_regla_1 = models.IntegerField(default=3, blank=True)
+    altura_regla_2 = models.IntegerField(default=2, blank=True)
+    altura_regla_3 = models.IntegerField(default=8, blank=True)
+    altura_regla_4 = models.IntegerField(default=4, blank=True)
+    altura_regla_5 = models.IntegerField(default=5, blank=True)
+
     # cada cuantos segundos tiene que avanzar una generacion ( milisegundos )
     velocidad = models.IntegerField(default=250)
 
     # cada cuantas generaciones se tiene que guardar el automata
     intervalo_almacenamiento = models.IntegerField(default=20)
+
+    escala = models.IntegerField(default=2)
+    escala_vista_plana = models.IntegerField(default=1)
     
     class Meta:
         verbose_name_plural = "Matrices"
         
     def __str__(self):
         return f"Matriz {self.nombre} ({self.filas}x{self.columnas}) - Estado: {self.estado_actual}"
+
