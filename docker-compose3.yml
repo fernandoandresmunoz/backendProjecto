@@ -45,7 +45,7 @@ services:
       bash -c '
         mkdir -p reports/coverage &&
         pip install pytest-cov &&
-        pytest   --junitxml=reports/junit.xml --cov=. --cov-report html:reports/coverage --ds=backend.settings_test_sqlite 
+        pytest   --junitxml=reports/junit.xml --cov=. --cov-report html:reports/coverage --ds=backendProjecto.settings_test_sqlite 
       '
 
   dev-server:
