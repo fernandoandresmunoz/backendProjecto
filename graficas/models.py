@@ -156,6 +156,21 @@ class Nodo(models.Model):
         help_text="Indica si el nodo es una hoja (no tiene afluentes)."
     )
 
+    tipo = models.CharField(
+        max_length=50,
+        default="Grupo",
+        help_text="Tipo de nodo.",
+        blank=True,
+        null=True
+    )
+    
+    numero_de_nodo = models.IntegerField(
+        default=0,
+        help_text="Número de nodo.",
+        blank=True,
+        null=True
+    )
+
 
 class Matriz(models.Model):
     """

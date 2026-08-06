@@ -112,7 +112,7 @@ class NodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Nodo
         # Incluimos 'padre' para la salida (GET) y 'padreId' para la entrada (POST)
-        fields = ['id', 'nombre', 'padre', 'padreId', 'matriz_ac', 'is_leaf'] 
+        fields = ['id', 'nombre', 'padre', 'padreId', 'matriz_ac', 'is_leaf', 'numero_de_nodo', 'tipo'] 
         read_only_fields = ['id'] # El ID es de solo lectura
 
 
