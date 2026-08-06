@@ -28,9 +28,9 @@ services:
       bash -c '
         mkdir -p reports/coverage &&
         mkdir -p reports/coverage-postgres &&
-        python3 manage.py migrate    --settings=backend.settings  &&
+        python3 manage.py migrate    --settings=backendProjecto.settings  &&
         pip install pytest-cov &&
-        pytest --junitxml=reports/junit.xml --cov=. --cov-report html:reports/coverage --ignore=spiders/* --ds=backend.settings
+        pytest --junitxml=reports/junit.xml --cov=. --cov-report html:reports/coverage --ignore=spiders/* --ds=backendProjecto.settings
       '
 
   unit:
