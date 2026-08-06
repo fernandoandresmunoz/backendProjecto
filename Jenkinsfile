@@ -277,8 +277,8 @@ pipeline {
       steps {
       // sh 'docker stack rm test'
       // sh 'sleep 20 '
-      // sh 'docker stack deploy -c stack-test.yaml test'
-      sh 'docker service update --force test_api'
+      sh 'docker stack deploy -c stack-test.yaml test'
+      //sh 'docker service update --force test_api'
       }
     }
 

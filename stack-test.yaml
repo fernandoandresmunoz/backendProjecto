@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+
+    api-geometria:
+      image: api-geometria:latest
+      # ports:
+      #   - 8001:8000
+      command: >
+          bash -c 'source variables.sh &&  gunicorn backendProjecto.wsgi -b 0.0.0.0:8000 --workers 3 --timeout 120 --log-level=debug  '
+      
+      # bash -c ' ./utilities/wait-for-it.sh -t zero db:5432 && sleep 5 && gunicorn backend.wsgi -b 0.0.0.0:8000 --workers 3 --timeout 120 --log-level=debug  '
+      environment:
+        # REDIS_HOST: redis
+        # REDIS_PORT: 6379
+        DB_HOST: db
+        DB_USER: postgres
+        DB_PASSWORD: postgres
+        DB_PORT: 5432
+        ENVIRONMENT: test
+
+      deploy:
+        replicas: 1
+        resources:
+          limits:
+            memory: "1G" # Aj
+      networks:
+        - red_infraestructura
+        - test_network # Asegúrate de que todos tus servicios usen esta red
+
+    
+
+
+networks:
+  red_infraestructura:
+    external: true
+  test_network: # <-- Aquí se define la red de overlay
+    driver: overlay
+    attachable: true
+
+# volumes:
+#   data:
+#   jenkins_home:
+#   jupyter:
+#   jupyter2:
+#   pgadmin4:
+#   esdata:
+#   grafana-storage:
+#   prometheus_data: # Nuevo: Define el volumen persistente
+#   redis_data:
