@@ -121,9 +121,27 @@ class Recta(models.Model):
         help_text="Grosor de la línea en píxeles."
     )
 
+    @property
+    def pendiente(self):
+        """
+        Pendiente (m) de la recta que pasa por p1 y p2.
+        Devuelve None si la recta es vertical (pendiente indefinida).
+        """
+        delta_x = self.p2.x - self.p1.x
+        if delta_x == 0:
+            return None
+        return (self.p2.y - self.p1.y) / delta_x
 
-
-
+    @property
+    def interseccion_y(self):
+        """
+        Intersección con el eje Y (coeficiente de posición).
+        Devuelve None si la recta es vertical.
+        """
+        m = self.pendiente
+        if m is None:
+            return None
+        return self.p1.y - m * self.p1.x
 
 
 class Nodo(models.Model):
