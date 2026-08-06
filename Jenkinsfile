@@ -11,8 +11,8 @@ pipeline {
   stages {
     stage('Build Image') {
       steps {
-        sh 'docker build -t api:latest .'
-        echo 'Docker image api:latest built successfully'
+        sh 'docker build -t api-geometria:latest .'
+        echo 'Docker image api-geometria:latest built successfully'
       }
     }
     
