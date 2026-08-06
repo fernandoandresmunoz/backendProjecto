@@ -76,7 +76,7 @@ pipeline {
               steps {
                 echo 'Database service started in the background'
 //                sh 'docker compose -f docker-compose3.yml run --remove-orphans unit-postgresql'
-                sh 'docker compose -f docker-compose3.yml -p unit-tests-postgres run --remove-orphans unit-postgresql'
+              //  sh 'docker compose -f docker-compose3.yml -p unit-tests-postgres run --remove-orphans unit-postgresql'
 
 
               }
