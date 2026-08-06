@@ -1,0 +1,168 @@
+services:
+
+
+  db-postgresql:
+    image: postgres:14.17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
+
+  unit-postgresql:
+    image: api:latest
+    working_dir: /code
+    volumes:
+      - ./reports:/code/reports
+      - ./tests:/code/tests
+    depends_on:
+      - db-postgresql
+    environment:
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: db-postgresql
+      DB_PORT: 5432
+
+
+        # python3 manage.py migrate auth --settings=nightowl.settings_test_postgres &&
+        # python3 manage.py makemigrations auth --settings=nightowl.settings_test_postgres &&
+        # pip install django-mcp-server &&
+    command: >
+      bash -c '
+        mkdir -p reports/coverage &&
+        mkdir -p reports/coverage-postgres &&
+        python3 manage.py migrate    --settings=backend.settings  &&
+        pip install pytest-cov &&
+        pytest --junitxml=reports/junit.xml --cov=. --cov-report html:reports/coverage --ignore=spiders/* --ds=backend.settings
+      '
+
+
+  unit:
+    image: api:latest
+    working_dir: /code
+    volumes:
+      - ./reports:/vzor/reports
+      - ./tests:/code/tests
+    environment:
+      ENV: testing-sqlite
+    command: >
+      bash -c '
+        mkdir -p reports/coverage &&
+        pip install pytest-cov &&
+        pytest   --junitxml=reports/junit.xml --cov=. --cov-report html:reports/coverage --ds=backend.settings_test_sqlite 
+      '
+
+  dev-server:
+    image: api:latest
+    working_dir: /code
+    volumes:
+      - ./reports:/code/reports
+    ports:
+      - 8000:8000
+    command: >
+      bash -c '
+      python3 manage.py runserver 0.0.0.0:8000'
+      
+  flake8:
+    image: python:3.9-slim
+    working_dir: /app
+    user: "root"  # Temporalmente como root para crear directorios
+    volumes:
+        - .:/app
+        - ./reports:/app/reports
+    command: >
+        bash -c '
+        groupadd -g 1000 jenkins || true &&
+        useradd -u 1000 -g jenkins -m -d /home/jenkins jenkins || true &&
+        mkdir -p /home/jenkins/.local/bin &&
+        mkdir -p /app/reports &&
+        chown -R jenkins:jenkins /home/jenkins &&
+        chown -R jenkins:jenkins /app/reports &&
+        chmod -R 777 /app/reports &&
+        su -c "pip install --user flake8 && /home/jenkins/.local/bin/flake8 . --count --max-line-length=120 --statistics --format=html > /app/reports/flake8.html" - jenkins || true
+        '
+
+  pylint:
+      image: python:3.9-slim
+      working_dir: /app
+      user: "root"  # Temporalmente como root para crear directorios
+      volumes:
+          - .:/app
+          - ./reports:/app/reports
+      command: >
+          bash -c '
+          groupadd -g 1000 jenkins || true &&
+          useradd -u 1000 -g jenkins -m -d /home/jenkins jenkins || true &&
+          mkdir -p /home/jenkins/.local/bin &&
+          mkdir -p /app/reports &&
+          chown -R jenkins:jenkins /home/jenkins &&
+          chown -R jenkins:jenkins /app/reports &&
+          chmod -R 777 /app/reports &&
+          su -c "pip install --user pylint && cd /app && /home/jenkins/.local/bin/pylint --output-format=parseable comercial tests > /app/reports/pylint.txt" - jenkins || true &&
+          su -c "cd /app && /home/jenkins/.local/bin/pylint --output-format=html comercial tests > /app/reports/pylint.html" - jenkins || true
+          '
+
+  black:
+      image: python:3.9-slim
+      working_dir: /app
+      user: "root"  # Temporalmente como root para crear directorios
+      volumes:
+          - .:/app
+          - ./reports:/app/reports
+      command: >
+          bash -c '
+          groupadd -g 1000 jenkins || true &&
+          useradd -u 1000 -g jenkins -m -d /home/jenkins jenkins || true &&
+          mkdir -p /home/jenkins/.local/bin &&
+          mkdir -p /app/reports &&
+          chown -R jenkins:jenkins /home/jenkins &&
+          chown -R jenkins:jenkins /app/reports &&
+          chmod -R 777 /app/reports &&
+          su -c "pip install --user black && /home/jenkins/.local/bin/black --check . --diff > /app/reports/black.html" - jenkins || true
+          '
+
+  isort:
+      image: python:3.9-slim
+      working_dir: /app
+      user: "root"  # Temporalmente como root para crear directorios
+      volumes:
+          - .:/app
+          - ./reports:/app/reports
+      command: >
+          bash -c '
+          groupadd -g 1000 jenkins || true &&
+          useradd -u 1000 -g jenkins -m -d /home/jenkins jenkins || true &&
+          mkdir -p /home/jenkins/.local/bin &&
+          mkdir -p /app/reports &&
+          chown -R jenkins:jenkins /home/jenkins &&
+          chown -R jenkins:jenkins /app/reports &&
+          chmod -R 777 /app/reports &&
+          su -c "pip install --user isort && /home/jenkins/.local/bin/isort --check-only . --diff > /app/reports/isort.html" - jenkins || true
+          '
+
+  bandit:
+      image: python:3.9-slim
+      working_dir: /app
+      user: "root"  # Temporalmente como root para crear directorios
+      volumes:
+          - .:/app
+          - ./reports:/app/reports
+      command: >
+          bash -c '
+          groupadd -g 1000 jenkins || true &&
+          useradd -u 1000 -g jenkins -m -d /home/jenkins jenkins || true &&
+          mkdir -p /home/jenkins/.local/bin &&
+          mkdir -p /app/reports &&
+          chown -R jenkins:jenkins /home/jenkins &&
+          chown -R jenkins:jenkins /app/reports &&
+          chmod -R 777 /app/reports &&
+          su -c "pip install --user bandit && /home/jenkins/.local/bin/bandit -r -f html --skip-tests B101,B102,B310 comercial tests > /app/reports/bandit.html" - jenkins || true
+          '
+
+#      python3 manage.py makemigrations auth --empty &&
+#      python3 manage.py migrate auth --fake &&
+#      python3 manage.py migrate auth &&
+    #pytest --junitxml=/app/reports/junit.xml   --ds=nightowl.settings  && chmod -R 777 /app/reports
+    #python3 manage.py test
+    #python3 manage.py test
