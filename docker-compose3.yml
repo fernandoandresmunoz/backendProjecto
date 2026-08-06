@@ -8,7 +8,7 @@ services:
       POSTGRES_DB: postgres
 
   unit-postgresql:
-    image: backend-geomtria:latest
+    image: backend-geometria:latest
     working_dir: /code
     volumes:
       - ./reports:/code/reports
@@ -34,7 +34,7 @@ services:
       '
 
   unit:
-    image: backend-geomtria:latest
+    image: backend-geometria:latest
     working_dir: /code
     volumes:
       - ./reports:/vzor/reports
@@ -49,7 +49,7 @@ services:
       '
 
   dev-server:
-    image: backend-geomtria:latest
+    image: backend-geometria:latest
     working_dir: /code
     volumes:
       - ./reports:/code/reports
