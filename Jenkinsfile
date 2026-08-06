@@ -270,7 +270,7 @@ pipeline {
 
   stage('CONSTRUIR IMAGEN TEST') {
       steps {
-        sh 'docker build -f Dockerfile.test  . -t api-test:latest'
+        sh 'docker build -f Dockerfile.test  . -t api-geometria-test:latest'
       }
     }
   stage('DESPLIEGUE IMAGEN TEST') {
@@ -278,6 +278,7 @@ pipeline {
       // sh 'docker stack rm test'
       // sh 'sleep 20 '
       sh 'docker stack deploy -c stack-test.yaml api_geometria'
+      //sh 'docker stack update --force api_geometria'
       //sh 'docker service update --force test_api'
       }
     }

@@ -7,7 +7,7 @@ services:
       # ports:
       #   - 8001:8000
       command: >
-          bash -c 'source variables.sh &&  gunicorn backendProjecto.wsgi -b 0.0.0.0:8000 --workers 3 --timeout 120 --log-level=debug  '
+          bash -c ' gunicorn backendProjecto.wsgi -b 0.0.0.0:8000 --workers 3 --timeout 120 --log-level=debug  '
       
       # bash -c ' ./utilities/wait-for-it.sh -t zero db:5432 && sleep 5 && gunicorn backend.wsgi -b 0.0.0.0:8000 --workers 3 --timeout 120 --log-level=debug  '
       environment:
