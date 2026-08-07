@@ -9,4 +9,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir gunicorn  
 COPY . .
 RUN mkdir -p /data
-CMD ["gunicorn", "backend.wsgi", "--preload", "-b", "0.0.0.0:8000"]
+CMD ["gunicorn", "backendProjecto.wsgi", "--preload", "-b", "0.0.0.0:8000"]
