@@ -19,6 +19,9 @@ services:
         DB_PORT: 5432
         ENVIRONMENT: test
 
+      volumes:
+        - /home/n30/db.sqlite3:/code/db.sqlite3
+
       deploy:
         replicas: 1
         resources:
