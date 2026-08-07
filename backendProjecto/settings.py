@@ -28,7 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = [
     u'localhost',
     u'linux',
-    ]
+    u'*',
+]
+
+FORCE_SCRIPT_NAME = '/geometria'
+USE_X_FORWARDED_HOST = True
 
 
 # Application definition
