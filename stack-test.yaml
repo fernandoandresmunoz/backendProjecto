@@ -3,7 +3,7 @@ version: "3"
 services:
 
     api-geometria:
-      image: api-geometria:latest
+      image: api-geometria-test:latest
       # ports:
       #   - 8001:8000
       command: >
