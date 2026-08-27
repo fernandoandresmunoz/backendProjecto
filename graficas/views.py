@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import viewsets
-from .serializers import LienzoSerializer, PuntoSerializer, RectaSerializer, MatrizSerializer
+from .serializers import LienzoSerializer, PuntoSerializer, RectaSerializer, MatrizSerializer, MatrizListSerializer
 from .models import Lienzo, Punto, Recta, Matriz
 from django_filters.rest_framework import DjangoFilterBackend 
 
@@ -155,6 +155,9 @@ class MatrizViewSet(viewsets.ModelViewSet):
     serializer_class = MatrizSerializer
     pagination_class = DiezResultadosPaginacion
 
-
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return MatrizListSerializer
+        return MatrizSerializer
 
 
