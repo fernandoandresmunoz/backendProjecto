@@ -135,10 +135,6 @@ class NodoSerializer(serializers.ModelSerializer):
         # Limpiamos el campo de entrada 'padreId' de la salida JSON
         if 'padreId' in representation:
             del representation['padreId']
-        view = self.context.get('view')
-
-        if view and getattr(view, 'action', None) == 'list':
-            representation.pop('datos_matriz', None) 
 
         return representation
 
@@ -149,6 +145,18 @@ class MatrizSerializer(serializers.ModelSerializer):
     Serializador que convierte el objeto Matriz del backend en JSON y viceversa.
     Incluye todos los campos para permitir el CRUD completo de la matriz.
     """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # 1. Si la vista le pasa el contexto y la acción es 'list'
+        view = self.context.get('view')
+        if view and getattr(view, 'action', None) == 'list':
+            self.fields.pop('datos_matriz', None)
+            
+        # 2. O si se llama con many=True (cuando se serializa una lista/queryset)
+        elif kwargs.get('many', False):
+            self.fields.pop('datos_matriz', None)
     class Meta:
         model = Matriz
         # Incluir todos los campos definidos en el modelo.
