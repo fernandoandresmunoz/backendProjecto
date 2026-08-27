@@ -98,6 +98,7 @@ from .models import Nodo # Asegúrate de importar Nodo
 
 
 
+
 class NodoSerializer(serializers.ModelSerializer):
     # Campo para recibir el ID del padre del frontend, no es un campo del modelo.
     # Write_only=True asegura que solo se use para entrada de datos, no para la salida JSON.
@@ -134,7 +135,11 @@ class NodoSerializer(serializers.ModelSerializer):
         # Limpiamos el campo de entrada 'padreId' de la salida JSON
         if 'padreId' in representation:
             del representation['padreId']
-            
+        view = self.context.get('view')
+
+        if view and getattr(view, 'action', None) == 'list':
+            representation.pop('datos_matriz', None) 
+
         return representation
 
 
