@@ -266,7 +266,21 @@ pipeline {
         // }
       }
     }
-
+        stage('SonarQube Analysis') {
+            steps {
+                sh '''
+                    docker run --rm \
+                        --network code-quality_sonar_internal \
+                        -v "$(pwd):/usr/src" \
+                        sonarsource/sonar-scanner-cli \
+                        -Dsonar.projectKey="api-geometria" \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url="http://192.168.1.22:9000" \
+                        -Dsonar.python.coverage.reportPaths="reports/coverage.xml" \
+                        -Dsonar.token="sqa_45c259e3cdaf35ec4898e9159e5380c4b25f9f15"
+                '''
+            }
+        }
 
   stage('CONSTRUIR IMAGEN TEST') {
       steps {

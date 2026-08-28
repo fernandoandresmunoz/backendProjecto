@@ -30,7 +30,7 @@ services:
         mkdir -p reports/coverage-postgres &&
         python3 manage.py migrate    --settings=backendProjecto.settings  &&
         pip install pytest-cov &&
-        pytest --junitxml=reports/junit.xml --cov=. --cov-report html:reports/coverage --ignore=spiders/* --ds=backendProjecto.settings
+        pytest --junitxml=reports/junit.xml --cov=. --cov-report html:reports/coverage --cov-report xml:reports/coverage.xml --ignore=spiders/* --ds=backendProjecto.settings
       '
 
   unit:
