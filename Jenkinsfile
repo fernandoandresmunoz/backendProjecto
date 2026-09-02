@@ -297,8 +297,8 @@ pipeline {
       steps {
       // sh 'docker stack rm test'
       // sh 'sleep 20 '
-      sh 'docker stack deploy -c stack-test.yaml api_geometria'
-      // sh 'docker service update --image 127.0.0.1:5000/api-geometria-test:latest api_geometria_api-geometria '
+      // sh 'docker stack deploy -c stack-test.yaml api_geometria'
+      sh 'docker service update --image 127.0.0.1:5000/api-geometria-test:latest api_geometria_api-geometria '
       //sh 'docker stack update --force api_geometria'
       //sh 'docker service update --force test_api'
       }
